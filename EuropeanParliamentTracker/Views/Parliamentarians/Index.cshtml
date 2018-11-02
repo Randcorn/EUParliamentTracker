@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EuropeanParliamentTracker.Models.Parliamentarian>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="RemoveAll">Remove All</a>
+    <a asp-action="ImportParliamentarians">Import Parliamentarians</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NationlParty.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationlParty.Name)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
