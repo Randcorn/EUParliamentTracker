@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EuropeanParliamentTracker",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EuropeanParliamentTracker.Domain", "EuropeanParliamentTracker.Domain\EuropeanParliamentTracker.Domain.csproj", "{8306E5EB-3DB1-4F94-955F-49D19F5FAA6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EUParliamentTracker.Application", "EUParliamentTracker.Application\EUParliamentTracker.Application.csproj", "{1CA6E99D-9EFD-4055-A648-9ADA942C9327}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EuropeanParliamentTracker.Application", "EUParliamentTracker.Application\EuropeanParliamentTracker.Application.csproj", "{1CA6E99D-9EFD-4055-A648-9ADA942C9327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

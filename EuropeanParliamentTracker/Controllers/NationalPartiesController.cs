@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EuropeanParliamentTracker.Domain;
 using EuropeanParliamentTracker.Domain.Models;
-using EUParliamentTracker.Application.Repositories;
+using EuropeanParliamentTracker.Application.Interfaces;
 
 namespace EuropeanParliamentTracker.Controllers
 {
     public class NationalPartiesController : Controller
     {
-        private readonly NationalPartiesRepository _nationalPartiesRepository;
+        private readonly INationalPartiesRepository _nationalPartiesRepository;
         private readonly DatabaseContext _context;
 
-        public NationalPartiesController(DatabaseContext context, NationalPartiesRepository nationalPartiesRepository)
+        public NationalPartiesController(DatabaseContext context, INationalPartiesRepository nationalPartiesRepository)
         {
             _context = context;
             _nationalPartiesRepository = nationalPartiesRepository;
@@ -25,19 +25,17 @@ namespace EuropeanParliamentTracker.Controllers
         public IActionResult Index()
         {
             return View(_nationalPartiesRepository.GetNationalParties());
-            //return View(_context.NationalParties.ToListAsync());
         }
 
         // GET: NationalParties/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public IActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var nationalParty = await _context.NationalParties
-                .FirstOrDefaultAsync(m => m.NationalPartyId == id);
+            var nationalParty = _nationalPartiesRepository.GetNationalParty(id.Value);
             if (nationalParty == null)
             {
                 return NotFound();
@@ -71,14 +69,14 @@ namespace EuropeanParliamentTracker.Controllers
         }
 
         // GET: NationalParties/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public IActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var nationalParty = await _context.NationalParties.FindAsync(id);
+            var nationalParty = _nationalPartiesRepository.GetNationalParty(id.Value);
             if (nationalParty == null)
             {
                 return NotFound();
@@ -142,11 +140,11 @@ namespace EuropeanParliamentTracker.Controllers
         // POST: NationalParties/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public IActionResult DeleteConfirmed(Guid id)
         {
-            var nationalParty = await _context.NationalParties.FindAsync(id);
+            var nationalParty = _nationalPartiesRepository.GetNationalParty(id);
             _context.NationalParties.Remove(nationalParty);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

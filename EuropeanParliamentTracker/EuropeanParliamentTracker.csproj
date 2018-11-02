@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EUParliamentTracker.Application\EUParliamentTracker.Application.csproj" />
+    <ProjectReference Include="..\EUParliamentTracker.Application\EuropeanParliamentTracker.Application.csproj" />
     <ProjectReference Include="..\EuropeanParliamentTracker.Domain\EuropeanParliamentTracker.Domain.csproj" />
   </ItemGroup>
 

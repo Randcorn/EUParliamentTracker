@@ -32,14 +32,14 @@ namespace EuropeanParliamentTracker.Controllers
             _context.NationalParties.RemoveRange(_context.NationalParties.ToList());
             _context.Countries.RemoveRange(_context.Countries.ToList());
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> ImportData()
         {
             var meps = await GetData();
             SaveMeps(meps);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         private void SaveMeps(meps meps)

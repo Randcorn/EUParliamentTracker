@@ -4,10 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EuropeanParliamentTracker.Domain.Models;
-using EUParliamentTracker.Application.Interfaces;
-using EuropeanParliamentTracker.Domain.Interfaces;
 using EuropeanParliamentTracker.Domain;
-using EUParliamentTracker.Application.Repositories;
 
 namespace EuropeanParliamentTracker.Controllers
 {

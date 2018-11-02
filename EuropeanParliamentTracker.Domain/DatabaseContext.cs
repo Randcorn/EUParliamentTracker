@@ -1,10 +1,9 @@
-﻿using EuropeanParliamentTracker.Domain.Interfaces;
-using EuropeanParliamentTracker.Domain.Models;
+﻿using EuropeanParliamentTracker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EuropeanParliamentTracker.Domain
 {
-    public class DatabaseContext : DbContext, IDatabaseContext
+    public class DatabaseContext : DbContext
     {
         public DbSet<Country> Countries { get; set; }
         public DbSet<NationalParty> NationalParties { get; set; }
