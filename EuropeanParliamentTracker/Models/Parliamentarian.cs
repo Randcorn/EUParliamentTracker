@@ -6,7 +6,7 @@ namespace EuropeanParliamentTracker.Models
     public class Parliamentarian
     {
         public Guid ParliamentarianId { get; set; }
-        public int OfficalId { get; set; }
+        public string OfficalId { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
 
