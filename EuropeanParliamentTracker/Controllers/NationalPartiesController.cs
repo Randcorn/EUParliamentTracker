@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EuropeanParliamentTracker.Database;
-using EuropeanParliamentTracker.Models;
+using EuropeanParliamentTracker.Domain;
+using EuropeanParliamentTracker.Domain.Models;
 
 namespace EuropeanParliamentTracker.Controllers
 {

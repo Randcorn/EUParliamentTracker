@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EuropeanParliamentTracker.ViewModels;
-using EuropeanParliamentTracker.Database;
+using EuropeanParliamentTracker.Domain;
 using System.Linq;
 using System.Threading.Tasks;
-using EuropeanParliamentTracker.Models;
+using EuropeanParliamentTracker.Domain.Models;
 using System;
 using System.Net.Http;
 using System.IO;

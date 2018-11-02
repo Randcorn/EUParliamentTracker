@@ -1,11 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using EuropeanParliamentTracker.Database;
-using EuropeanParliamentTracker.Models;
+﻿using System.Threading.Tasks;
+using EuropeanParliamentTracker.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

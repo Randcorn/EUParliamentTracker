@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EuropeanParliamentTracker.Database;
-using EuropeanParliamentTracker.Models;
+using EuropeanParliamentTracker.Domain;
+using EuropeanParliamentTracker.Domain.Models;
 
 namespace EuropeanParliamentTracker.Controllers
 {

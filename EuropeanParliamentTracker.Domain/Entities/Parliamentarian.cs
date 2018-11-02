@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EuropeanParliamentTracker.Models
+namespace EuropeanParliamentTracker.Domain.Models
 {
     public class Parliamentarian
     {

@@ -1,7 +1,7 @@
-﻿using EuropeanParliamentTracker.Models;
+﻿using EuropeanParliamentTracker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EuropeanParliamentTracker.Database
+namespace EuropeanParliamentTracker.Domain
 {
     public class DatabaseContext : DbContext
     {

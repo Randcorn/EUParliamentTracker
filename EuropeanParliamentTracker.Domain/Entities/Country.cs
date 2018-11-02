@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EuropeanParliamentTracker.Models
+namespace EuropeanParliamentTracker.Domain.Models
 {
     public class Country
     {
