@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EuropeanParliamentTracker.Migrations
+namespace EuropeanParliamentTracker.Domain.Migrations
 {
     public partial class _2018110201 : Migration
     {
@@ -36,7 +36,7 @@ namespace EuropeanParliamentTracker.Migrations
                 columns: table => new
                 {
                     ParliamentarianId = table.Column<Guid>(nullable: false),
-                    OfficalId = table.Column<int>(nullable: false),
+                    OfficalId = table.Column<string>(nullable: true),
                     Firstname = table.Column<string>(nullable: true),
                     Lastname = table.Column<string>(nullable: true),
                     CountryId = table.Column<Guid>(nullable: false),

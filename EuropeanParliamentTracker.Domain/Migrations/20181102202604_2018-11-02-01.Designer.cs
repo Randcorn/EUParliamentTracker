@@ -4,14 +4,16 @@ using EuropeanParliamentTracker.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EuropeanParliamentTracker.Migrations
+namespace EuropeanParliamentTracker.Domain.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20181102202604_2018-11-02-01")]
+    partial class _2018110201
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace EuropeanParliamentTracker.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EuropeanParliamentTracker.Models.Country", b =>
+            modelBuilder.Entity("EuropeanParliamentTracker.Domain.Models.Country", b =>
                 {
                     b.Property<Guid>("CountryId")
                         .ValueGeneratedOnAdd();
@@ -31,7 +33,7 @@ namespace EuropeanParliamentTracker.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("EuropeanParliamentTracker.Models.NationalParty", b =>
+            modelBuilder.Entity("EuropeanParliamentTracker.Domain.Models.NationalParty", b =>
                 {
                     b.Property<Guid>("NationalPartyId")
                         .ValueGeneratedOnAdd();
@@ -43,7 +45,7 @@ namespace EuropeanParliamentTracker.Migrations
                     b.ToTable("NationalPartys");
                 });
 
-            modelBuilder.Entity("EuropeanParliamentTracker.Models.Parliamentarian", b =>
+            modelBuilder.Entity("EuropeanParliamentTracker.Domain.Models.Parliamentarian", b =>
                 {
                     b.Property<Guid>("ParliamentarianId")
                         .ValueGeneratedOnAdd();
@@ -67,14 +69,14 @@ namespace EuropeanParliamentTracker.Migrations
                     b.ToTable("Parliamentarians");
                 });
 
-            modelBuilder.Entity("EuropeanParliamentTracker.Models.Parliamentarian", b =>
+            modelBuilder.Entity("EuropeanParliamentTracker.Domain.Models.Parliamentarian", b =>
                 {
-                    b.HasOne("EuropeanParliamentTracker.Models.Country", "Country")
+                    b.HasOne("EuropeanParliamentTracker.Domain.Models.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("EuropeanParliamentTracker.Models.NationalParty", "NationlParty")
+                    b.HasOne("EuropeanParliamentTracker.Domain.Models.NationalParty", "NationlParty")
                         .WithMany()
                         .HasForeignKey("NationalPartyId")
                         .OnDelete(DeleteBehavior.Restrict);
