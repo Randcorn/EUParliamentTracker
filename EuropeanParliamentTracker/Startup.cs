@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using EUParliamentTracker.Application.Interfaces;
+using EUParliamentTracker.Application.Repositories;
 using EuropeanParliamentTracker.Domain;
+using EuropeanParliamentTracker.Domain.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,11 +34,16 @@ namespace EuropeanParliamentTracker
 
             services.AddSingleton(GetMapper());
 
+            //services.AddTransient<INationalPartiesRepository, NationalPartiesRepository>();
+            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=EuropeanParliamentTracker;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<DatabaseContext>
                 (options => options.UseSqlServer(connection, x => x.MigrationsAssembly("EuropeanParliamentTracker.Domain")));
+
+            services.AddScoped<NationalPartiesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

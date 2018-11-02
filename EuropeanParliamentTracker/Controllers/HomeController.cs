@@ -29,7 +29,7 @@ namespace EuropeanParliamentTracker.Controllers
         public IActionResult RemoveAll()
         {
             _context.Parliamentarians.RemoveRange(_context.Parliamentarians.ToList());
-            _context.NationalPartys.RemoveRange(_context.NationalPartys.ToList());
+            _context.NationalParties.RemoveRange(_context.NationalParties.ToList());
             _context.Countries.RemoveRange(_context.Countries.ToList());
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -57,7 +57,7 @@ namespace EuropeanParliamentTracker.Controllers
                     _context.Countries.Add(country);
                 }
 
-                var nationalParty = _context.NationalPartys.FirstOrDefault(x => x.Name == mep.nationalPoliticalGroup);
+                var nationalParty = _context.NationalParties.FirstOrDefault(x => x.Name == mep.nationalPoliticalGroup);
                 if (nationalParty == null)
                 {
                     nationalParty = new NationalParty
@@ -65,7 +65,7 @@ namespace EuropeanParliamentTracker.Controllers
                         NationalPartyId = Guid.NewGuid(),
                         Name = mep.nationalPoliticalGroup
                     };
-                    _context.NationalPartys.Add(nationalParty);
+                    _context.NationalParties.Add(nationalParty);
                 }
 
                 var parliamentarian = _context.Parliamentarians.FirstOrDefault(x => x.OfficalId == mep.id);
