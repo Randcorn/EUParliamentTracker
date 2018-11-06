@@ -1,0 +1,42 @@
+﻿@model EuropeanParliamentTracker.Domain.Entities.VoteResult
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>VoteResult</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VoteResultId" />
+            <div class="form-group">
+                <label asp-for="VoteType" class="control-label"></label>
+                <select asp-for="VoteType" class="form-control"></select>
+                <span asp-validation-for="VoteType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParliamentarianId" class="control-label"></label>
+                <select asp-for="ParliamentarianId" class="form-control" asp-items="ViewBag.ParliamentarianId"></select>
+                <span asp-validation-for="ParliamentarianId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoteId" class="control-label"></label>
+                <select asp-for="VoteId" class="form-control" asp-items="ViewBag.VoteId"></select>
+                <span asp-validation-for="VoteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

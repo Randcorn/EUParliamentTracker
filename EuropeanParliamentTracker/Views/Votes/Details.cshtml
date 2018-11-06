@@ -1,4 +1,5 @@
-﻿@model EuropeanParliamentTracker.Domain.Entities.Vote
+﻿@using EuropeanParliamentTracker.ViewModels
+@model VoteViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -29,3 +30,29 @@
     <a asp-action="Edit" asp-route-id="@Model.VoteId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VoteResults[0].Parliamentarian)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoteResults[0].VoteType)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var VoteResult in Model.VoteResults) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => VoteResult.Parliamentarian.Firstname) @Html.DisplayFor(modelItem => VoteResult.Parliamentarian.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => VoteResult.VoteType)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EuropeanParliamentTracker.Domain;
 using EuropeanParliamentTracker.Domain.Entities;
+using EuropeanParliamentTracker.ViewModels;
 
 namespace EuropeanParliamentTracker.Controllers
 {
@@ -38,7 +39,15 @@ namespace EuropeanParliamentTracker.Controllers
                 return NotFound();
             }
 
-            return View(vote);
+            var voteViewModel = new VoteViewModel
+            {
+                VoteId = vote.VoteId,
+                Name = vote.Name,
+                Code = vote.Code,
+                VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
+            };
+
+            return View(voteViewModel);
         }
 
         // GET: Votes/Create
