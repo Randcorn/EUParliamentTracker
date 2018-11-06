@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using EuropeanParliamentTracker.Application.Interfaces;
 using EuropeanParliamentTracker.Application.Repositories;
+using EuropeanParliamentTracker.DataIntegrations.CountriesIntegration;
+using EuropeanParliamentTracker.DataIntegrations.ParliamentariansIntegration;
+using EuropeanParliamentTracker.DataIntegrations.VotesIntegration;
 using EuropeanParliamentTracker.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +37,9 @@ namespace EuropeanParliamentTracker
             services.AddSingleton(GetMapper());
 
             services.AddTransient<INationalPartiesRepository, NationalPartiesRepository>();
+            services.AddTransient<ParliamentariansIntegration>();
+            services.AddTransient<CountriesIntegration>();
+            services.AddTransient<VotesIntegration>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

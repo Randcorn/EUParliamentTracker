@@ -15,12 +15,13 @@
   <ItemGroup>
     <Folder Include="MappingProfiles\" />
     <Folder Include="Models\" />
-    <Folder Include="ServiceEntities\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EUParliamentTracker.Application\EuropeanParliamentTracker.Application.csproj" />
+    <ProjectReference Include="..\EuropeanParliamentTracker.DataIntegrations\EuropeanParliamentTracker.DataIntegrations.csproj" />
     <ProjectReference Include="..\EuropeanParliamentTracker.Domain\EuropeanParliamentTracker.Domain.csproj" />
+    <ProjectReference Include="..\EuropeanParliamentTracker.Integration\EuropeanParliamentTracker.Pdf.csproj" />
   </ItemGroup>
 
 </Project>

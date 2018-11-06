@@ -4,14 +4,16 @@ using EuropeanParliamentTracker.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EuropeanParliamentTracker.Domain.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20181106192935_2018-11-06-07")]
+    partial class _2018110607
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,36 +21,12 @@ namespace EuropeanParliamentTracker.Domain.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EuropeanParliamentTracker.Domain.Entities.PoliticalGroup", b =>
-                {
-                    b.Property<Guid>("PoliticalGroupId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("PoliticalGroupId");
-
-                    b.ToTable("PoliticalGroups");
-                });
-
-            modelBuilder.Entity("EuropeanParliamentTracker.Domain.Entities.Vote", b =>
-                {
-                    b.Property<Guid>("VoteId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("VoteId");
-
-                    b.ToTable("Votes");
-                });
-
             modelBuilder.Entity("EuropeanParliamentTracker.Domain.Models.Country", b =>
                 {
                     b.Property<Guid>("CountryId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Apa");
 
                     b.Property<string>("Code");
 

@@ -6,5 +6,6 @@ namespace EuropeanParliamentTracker.Domain.Models
     {
         public Guid CountryId { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
     }
 }

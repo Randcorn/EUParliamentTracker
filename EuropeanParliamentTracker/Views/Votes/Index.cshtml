@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EuropeanParliamentTracker.Domain.Models.Country>
+﻿@model IEnumerable<EuropeanParliamentTracker.Domain.Entities.Vote>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,6 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -23,13 +26,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <img src="https://www.countryflags.io/@(item.Code)/flat/32.png">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CountryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CountryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CountryId">Delete</a>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VoteId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VoteId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VoteId">Delete</a>
             </td>
         </tr>
 }

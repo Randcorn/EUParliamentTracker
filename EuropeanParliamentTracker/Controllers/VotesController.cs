@@ -3,27 +3,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EuropeanParliamentTracker.Domain.Models;
 using EuropeanParliamentTracker.Domain;
+using EuropeanParliamentTracker.Domain.Entities;
 
 namespace EuropeanParliamentTracker.Controllers
 {
-    public class CountriesController : Controller
+    public class VotesController : Controller
     {
         private readonly DatabaseContext _context;
 
-        public CountriesController(DatabaseContext context)
+        public VotesController(DatabaseContext context)
         {
             _context = context;
         }
 
-        // GET: Countries
-        public IActionResult Index()
+        // GET: Votes
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Countries.ToList());
+            return View(await _context.Votes.ToListAsync());
         }
 
-        // GET: Countries/Details/5
+        // GET: Votes/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -31,40 +31,40 @@ namespace EuropeanParliamentTracker.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.CountryId == id);
-            if (country == null)
+            var vote = await _context.Votes
+                .FirstOrDefaultAsync(m => m.VoteId == id);
+            if (vote == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            return View(vote);
         }
 
-        // GET: Countries/Create
+        // GET: Votes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Countries/Create
+        // POST: Votes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Country country)
+        public async Task<IActionResult> Create([Bind("VoteId,Name,Code")] Vote vote)
         {
             if (ModelState.IsValid)
             {
-                country.CountryId = Guid.NewGuid();
-                _context.Add(country);
+                vote.VoteId = Guid.NewGuid();
+                _context.Add(vote);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            return View(vote);
         }
 
-        // GET: Countries/Edit/5
+        // GET: Votes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace EuropeanParliamentTracker.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries.FindAsync(id);
-            if (country == null)
+            var vote = await _context.Votes.FindAsync(id);
+            if (vote == null)
             {
                 return NotFound();
             }
-            return View(country);
+            return View(vote);
         }
 
-        // POST: Countries/Edit/5
+        // POST: Votes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CountryId,Name,Code")] Country country)
+        public async Task<IActionResult> Edit(Guid id, [Bind("VoteId,Name,Code")] Vote vote)
         {
-            if (id != country.CountryId)
+            if (id != vote.VoteId)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace EuropeanParliamentTracker.Controllers
             {
                 try
                 {
-                    _context.Update(country);
+                    _context.Update(vote);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.CountryId))
+                    if (!VoteExists(vote.VoteId))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace EuropeanParliamentTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(country);
+            return View(vote);
         }
 
-        // GET: Countries/Delete/5
+        // GET: Votes/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace EuropeanParliamentTracker.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.CountryId == id);
-            if (country == null)
+            var vote = await _context.Votes
+                .FirstOrDefaultAsync(m => m.VoteId == id);
+            if (vote == null)
             {
                 return NotFound();
             }
 
-            return View(country);
+            return View(vote);
         }
 
-        // POST: Countries/Delete/5
+        // POST: Votes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var country = await _context.Countries.FindAsync(id);
-            _context.Countries.Remove(country);
+            var vote = await _context.Votes.FindAsync(id);
+            _context.Votes.Remove(vote);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CountryExists(Guid id)
+        private bool VoteExists(Guid id)
         {
-            return _context.Countries.Any(e => e.CountryId == id);
+            return _context.Votes.Any(e => e.VoteId == id);
         }
     }
 }
