@@ -31,6 +31,7 @@ namespace EuropeanParliamentTracker.Controllers
                     VoteId = vote.VoteId,
                     Name = vote.Name,
                     Code = vote.Code,
+                    Date = vote.Date,
                     VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
                 };
                 voteViewModels.Add(voteViewModel);
@@ -59,6 +60,7 @@ namespace EuropeanParliamentTracker.Controllers
                 VoteId = vote.VoteId,
                 Name = vote.Name,
                 Code = vote.Code,
+                Date = vote.Date,
                 VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
             };
 

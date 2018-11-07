@@ -36,6 +36,7 @@ namespace EuropeanParliamentTracker.Controllers
             _context.Parliamentarians.RemoveRange(_context.Parliamentarians.ToList());
             _context.NationalParties.RemoveRange(_context.NationalParties.ToList());
             _context.Countries.RemoveRange(_context.Countries.ToList());
+            _context.VoteResults.RemoveRange(_context.VoteResults.ToList());
             _context.Votes.RemoveRange(_context.Votes.ToList());
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
@@ -50,7 +51,7 @@ namespace EuropeanParliamentTracker.Controllers
 
         public IActionResult ReadFromPdf()
         {
-            _votesIntegration.IntegrateVotesForDay(new DateTime(2018, 10, 24));
+            _votesIntegration.IntegrateVotesForDay(new DateTime(2018, 10, 25));
             return RedirectToAction(nameof(Index));
         }
 

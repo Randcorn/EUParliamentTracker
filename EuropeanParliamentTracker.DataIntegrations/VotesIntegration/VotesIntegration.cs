@@ -75,7 +75,8 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
                 {
                     VoteId = Guid.NewGuid(),
                     Name = voteName,
-                    Code = code
+                    Code = code,
+                    Date = _dayToImportFor
                 };
                 _context.Add(vote);
                 voteNumber++;

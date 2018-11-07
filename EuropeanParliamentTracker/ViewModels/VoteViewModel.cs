@@ -11,6 +11,7 @@ namespace EuropeanParliamentTracker.ViewModels
         public Guid VoteId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public DateTime Date { get; set; }
         public List<VoteResult> VoteResults { get; set; }
 
         public VoteType VoteOutcome()
