@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using EuropeanParliamentTracker.Domain;
 using EuropeanParliamentTracker.Domain.Entities;
 using EuropeanParliamentTracker.ViewModels;
+using System.Collections.Generic;
 
 namespace EuropeanParliamentTracker.Controllers
 {
@@ -21,7 +22,21 @@ namespace EuropeanParliamentTracker.Controllers
         // GET: Votes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Votes.ToListAsync());
+            var voteViewModels = new List<VoteViewModel>();
+            var votes = await _context.Votes.ToListAsync();
+            foreach(var vote in votes)
+            {
+                var voteViewModel = new VoteViewModel
+                {
+                    VoteId = vote.VoteId,
+                    Name = vote.Name,
+                    Code = vote.Code,
+                    VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
+                };
+                voteViewModels.Add(voteViewModel);
+            }
+
+            return View(voteViewModels);
         }
 
         // GET: Votes/Details/5
@@ -148,6 +163,10 @@ namespace EuropeanParliamentTracker.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var vote = await _context.Votes.FindAsync(id);
+            
+            var voteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId);
+            _context.VoteResults.RemoveRange(voteResults);
+
             _context.Votes.Remove(vote);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

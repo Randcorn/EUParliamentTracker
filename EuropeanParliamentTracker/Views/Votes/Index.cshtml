@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EuropeanParliamentTracker.Domain.Entities.Vote>
+﻿@model IEnumerable<VoteViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,6 +19,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Code)
             </th>
+            <th>
+                Votes
+            </th>
+            <th>
+                Outcome
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -30,6 +36,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @item.VoteResults.Count()
+            </td>
+            <td>
+                @item.VoteOutcome()
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VoteId">Edit</a> |

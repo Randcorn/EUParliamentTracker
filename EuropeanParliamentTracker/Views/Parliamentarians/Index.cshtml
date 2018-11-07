@@ -22,6 +22,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.NationlParty.Name)
             </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +41,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NationlParty.Name)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ParliamentarianId">Details</a> |
             </td>
         </tr>
         }

@@ -1,0 +1,42 @@
+﻿@model EuropeanParliamentTracker.Domain.Models.Parliamentarian
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Parliamentarian</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Firstname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Firstname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lastname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lastname)
+        </dd>
+        <dt>
+            National Party
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NationlParty.Name)
+        </dd>
+        <dt>
+            Country
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Country.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

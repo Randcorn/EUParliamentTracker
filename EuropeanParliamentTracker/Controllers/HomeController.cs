@@ -50,7 +50,7 @@ namespace EuropeanParliamentTracker.Controllers
 
         public IActionResult ReadFromPdf()
         {
-            _votesIntegration.IntegrateVotesForDay(new DateTime(2018, 10, 23));
+            _votesIntegration.IntegrateVotesForDay(new DateTime(2018, 10, 24));
             return RedirectToAction(nameof(Index));
         }
 

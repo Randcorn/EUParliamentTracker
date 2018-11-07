@@ -24,4 +24,10 @@
     <ProjectReference Include="..\EuropeanParliamentTracker.Integration\EuropeanParliamentTracker.Pdf.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Parliamentarians\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

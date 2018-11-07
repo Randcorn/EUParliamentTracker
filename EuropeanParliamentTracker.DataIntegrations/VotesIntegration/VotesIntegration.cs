@@ -3,6 +3,7 @@ using EuropeanParliamentTracker.Domain.Entities;
 using EuropeanParliamentTracker.Domain.Enums;
 using EuropeanParliamentTracker.Pdf;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
@@ -11,6 +12,10 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
     {
         private readonly DatabaseContext _context;
 
+        private List<string> noParliamentariansFound;
+        private List<string> severalParliamentariansFound;
+        private DateTime _dayToImportFor;
+
         public VotesIntegration(DatabaseContext context)
         {
             _context = context;
@@ -18,11 +23,13 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
 
         public void IntegrateVotesForDay(DateTime dayToImportFor)
         {
-            var voteInformationUrl = GetVoteInformationUrl(dayToImportFor);
+            _dayToImportFor = dayToImportFor;
+
+            var voteInformationUrl = GetVoteInformationUrl(_dayToImportFor);
             var voteInformationPdfText = PdfHelper.GetTextFromPDF(voteInformationUrl);
             ParseVoteInformationPdf(voteInformationPdfText);
 
-            var voteResultUrl = GetVoteResultUrl(dayToImportFor);
+            var voteResultUrl = GetVoteResultUrl(_dayToImportFor);
             var voteResultPdfText = PdfHelper.GetTextFromPDF(voteResultUrl);
             ParseVoteResultPdf(voteResultPdfText);
         }
@@ -42,18 +49,27 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
 
                 var lengthToReport = pdfText.IndexOf("Report");
                 var lengthToReccomendation = pdfText.IndexOf("Recommendation");
+                var lengthToCode = pdfText.IndexOf("/" + _dayToImportFor.ToString("yyyy")) - 7;
                 var lengthOfName = lengthToReport;
                 if(lengthToReport == -1 || (lengthToReport > lengthToReccomendation && lengthToReccomendation != -1))
                 {
                     lengthOfName = lengthToReccomendation;
                 }
+                if(lengthOfName == -1 || (lengthToCode != -1 && lengthToCode < lengthOfName))
+                {
+                    lengthOfName = lengthToCode;
+                }
                 var voteName = pdfText.Substring(0, lengthOfName);
-                voteName = voteName.TrimEnd('\n');
-                voteName = voteName.TrimEnd(' ');
+                voteName = voteName.Replace("\n", "");
 
                 var startOfCode = pdfText.IndexOf("(") + 1;
                 var endOfCode = pdfText.IndexOf(")");
                 var code = pdfText.Substring(startOfCode, endOfCode - startOfCode);
+
+                if(_context.Votes.Any(x => x.Code == code))
+                {
+                    continue;
+                }
 
                 var vote = new Vote
                 {
@@ -72,52 +88,64 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             var voteNumber = 1;
             while (true)
             {
+                noParliamentariansFound = new List<string>();
+                severalParliamentariansFound = new List<string>();
+
                 var lengthToNextVote = pdfText.IndexOf(" " + voteNumber + ". ");
                 if (lengthToNextVote == -1)
                 {
                     break;
                 }
-                lengthToNextVote += 4;
+                lengthToNextVote += 3 + voteNumber.ToString().Length;
                 pdfText = pdfText.Remove(0, lengthToNextVote);
 
                 var endOfVoteCode = pdfText.IndexOf(" ") + 1;
                 var voteCode = pdfText.Substring(0, endOfVoteCode);
+                voteCode = voteCode.TrimEnd(' ');
 
                 var vote = _context.Votes.FirstOrDefault(x => x.Code == voteCode);
                 if(vote == null)
                 {
+                    voteNumber++;
                     continue;
                 }
 
                 var lengthOfCurrentVoteSection = pdfText.IndexOf(" " + (voteNumber + 1) + ". ");
+                if(lengthOfCurrentVoteSection == -1)
+                {
+                    lengthOfCurrentVoteSection = pdfText.Length;
+                }
                 var currentVoteSection = pdfText.Substring(0, lengthOfCurrentVoteSection);
                 var voteSectionsByApproval = currentVoteSection.Split("\n \n \n").ToList();
 
                 AddVotesFromVoteSection(voteSectionsByApproval[2], vote.VoteId, VoteType.Approve);
                 AddVotesFromVoteSection(voteSectionsByApproval[3], vote.VoteId, VoteType.Reject);
-                AddVotesFromVoteSection(voteSectionsByApproval[4], vote.VoteId, VoteType.Abstain);
+                if(voteSectionsByApproval.Count() > 4)
+                {
+                    AddVotesFromVoteSection(voteSectionsByApproval[4], vote.VoteId, VoteType.Abstain);
+                }
 
+                _context.SaveChanges();
                 voteNumber++;
             }
-            _context.SaveChanges();
         }
 
         private void AddVotesFromVoteSection(string voteSection, Guid voteId, VoteType voteType)
         {
             var parliamentarianStrings = voteSection.Split(new [] { ", ", "\n \n" }, StringSplitOptions.None).ToList();
 
-            foreach(var parliamentarianString in parliamentarianStrings)
+            foreach (var parliamentarianString in parliamentarianStrings)
             {
                 var parliamentarianName = parliamentarianString;
                 if (parliamentarianName.Contains(":"))
                 {
                     parliamentarianName = parliamentarianName.Split(": ")[1];
                 }
-                parliamentarianName = parliamentarianName.TrimStart('\n');
-                parliamentarianName = parliamentarianName.TrimEnd('\n');
+                parliamentarianName = parliamentarianName.Replace("\n", "");
 
-                var parliamentarians = _context.Parliamentarians.Where(x => x.Lastname == parliamentarianName.ToUpperInvariant());
-                if(parliamentarians.Count() != 1)
+                var parliamentarianId = FindParliamentarianIdFromName(parliamentarianName);
+
+                if (parliamentarianId == null || _context.VoteResults.Any(x => x.ParliamentarianId == parliamentarianId && x.VoteId == voteId))
                 {
                     continue;
                 }
@@ -127,10 +155,42 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
                     VoteResultId = Guid.NewGuid(),
                     VoteType = voteType,
                     VoteId = voteId,
-                    ParliamentarianId = parliamentarians.First().ParliamentarianId
+                    ParliamentarianId = parliamentarianId.Value
                 };
                 _context.Add(voteResult);
             }
+        }
+
+        private Guid? FindParliamentarianIdFromName(string parliamentarianName)
+        {
+            var parliamentarians = _context.Parliamentarians.Where(x => x.Lastname == parliamentarianName.ToUpperInvariant());
+            if(parliamentarians.Count() != 1)
+            {
+                parliamentarians = _context.Parliamentarians.Where(x => x.Lastname + " " + x.Firstname == parliamentarianName.ToUpperInvariant());
+                if (parliamentarians.Count() != 1)
+                {
+                    parliamentarians = _context.Parliamentarians.Where(x => (x.Firstname + " " + x.Lastname).ToUpperInvariant().Contains(parliamentarianName.ToUpperInvariant()));
+                }
+                    
+                var pars = parliamentarians.ToList();
+                
+                pars = parliamentarians.ToList();
+                if (parliamentarians.Count() != 1)
+                {
+                    var apa = 2;
+                }
+            }
+            if (parliamentarians.Count() == 0)
+            {
+                noParliamentariansFound.Add(parliamentarianName);
+                return null;
+            }
+            if (parliamentarians.Count() > 1)
+            {
+                severalParliamentariansFound.Add(parliamentarianName);
+                return null;
+            }
+            return parliamentarians.FirstOrDefault()?.ParliamentarianId;
         }
 
         private string GetVoteResultUrl(DateTime dayToImportFor)
