@@ -42,6 +42,14 @@ namespace EuropeanParliamentTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult RemoveForOneDate()
+        {
+            _context.VoteResults.RemoveRange(_context.VoteResults.Where(x => x.Vote.Date == new DateTime(2018, 10, 25)).ToList());
+            _context.Votes.RemoveRange(_context.Votes.Where(x => x.Date == new DateTime(2018, 10, 25)));
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> ImportData()
         {
             await _countriesIntegration.IntegrateCountries();

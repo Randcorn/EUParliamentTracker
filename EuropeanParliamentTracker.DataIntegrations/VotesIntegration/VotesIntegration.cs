@@ -28,7 +28,7 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             var voteInformationUrl = GetVoteInformationUrl(_dayToImportFor);
             var voteInformationPdfText = PdfHelper.GetTextFromPDF(voteInformationUrl);
             ParseVoteInformationPdf(voteInformationPdfText);
-
+            
             var voteResultUrl = GetVoteResultUrl(_dayToImportFor);
             var voteResultPdfText = PdfHelper.GetTextFromPDF(voteResultUrl);
             ParseVoteResultPdf(voteResultPdfText);
@@ -49,6 +49,8 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
 
                 var lengthToReport = pdfText.IndexOf("Report");
                 var lengthToReccomendation = pdfText.IndexOf("Recommendation");
+                var lengthToMotionForAResolution = pdfText.IndexOf("Motion for a resolution");
+                var lengthToMotionsForResolutions = pdfText.IndexOf("Motions for resolutions");
                 var lengthToCode = pdfText.IndexOf("/" + _dayToImportFor.ToString("yyyy")) - 7;
                 var lengthOfName = lengthToReport;
                 if(lengthToReport == -1 || (lengthToReport > lengthToReccomendation && lengthToReccomendation != -1))
@@ -59,12 +61,19 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
                 {
                     lengthOfName = lengthToCode;
                 }
+                if (lengthOfName == -1 || (lengthToMotionForAResolution != -1 && lengthToMotionForAResolution < lengthOfName))
+                {
+                    lengthOfName = lengthToMotionForAResolution;
+                }
+                if (lengthOfName == -1 || (lengthToMotionsForResolutions != -1 && lengthToMotionsForResolutions < lengthOfName))
+                {
+                    lengthOfName = lengthToMotionsForResolutions;
+                }
                 var voteName = pdfText.Substring(0, lengthOfName);
                 voteName = voteName.Replace("\n", "");
 
-                var startOfCode = pdfText.IndexOf("(") + 1;
-                var endOfCode = pdfText.IndexOf(")");
-                var code = pdfText.Substring(startOfCode, endOfCode - startOfCode);
+                var endOfCode = pdfText.IndexOf("/" + _dayToImportFor.ToString("yyyy"));
+                var code = pdfText.Substring(endOfCode - 7, 12);
 
                 if(_context.Votes.Any(x => x.Code == code))
                 {
