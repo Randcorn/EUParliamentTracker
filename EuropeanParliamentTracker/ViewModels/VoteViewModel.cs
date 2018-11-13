@@ -3,6 +3,7 @@ using EuropeanParliamentTracker.Domain.Enums;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EuropeanParliamentTracker.ViewModels
 {
@@ -11,6 +12,7 @@ namespace EuropeanParliamentTracker.ViewModels
         public Guid VoteId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
         public List<VoteResult> VoteResults { get; set; }
 

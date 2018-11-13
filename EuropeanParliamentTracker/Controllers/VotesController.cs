@@ -22,7 +22,11 @@ namespace EuropeanParliamentTracker.Controllers
         // GET: Votes
         public async Task<IActionResult> Index()
         {
-            var voteViewModels = new List<VoteViewModel>();
+            var voteFilterViewModel = new VoteFilterViewModel()
+            {
+                Votes = new List<VoteViewModel>(),
+                DateToShow = DateTime.Now
+            };
             var votes = await _context.Votes.ToListAsync();
             foreach(var vote in votes)
             {
@@ -34,10 +38,10 @@ namespace EuropeanParliamentTracker.Controllers
                     Date = vote.Date,
                     VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
                 };
-                voteViewModels.Add(voteViewModel);
+                voteFilterViewModel.Votes.Add(voteViewModel);
             }
 
-            return View(voteViewModels);
+            return View(voteFilterViewModel);
         }
 
         // GET: Votes/Details/5

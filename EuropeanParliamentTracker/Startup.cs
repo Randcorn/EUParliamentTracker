@@ -39,7 +39,7 @@ namespace EuropeanParliamentTracker
             services.AddTransient<INationalPartiesRepository, NationalPartiesRepository>();
             services.AddTransient<ParliamentariansIntegration>();
             services.AddTransient<CountriesIntegration>();
-            services.AddTransient<VotesIntegration>();
+            services.AddTransient<VotesIntegrator>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

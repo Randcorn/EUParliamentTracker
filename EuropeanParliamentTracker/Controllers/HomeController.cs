@@ -16,9 +16,9 @@ namespace EuropeanParliamentTracker.Controllers
         private readonly DatabaseContext _context;
         private readonly ParliamentariansIntegration _parliamentariansIntegration;
         private readonly CountriesIntegration _countriesIntegration;
-        private readonly VotesIntegration _votesIntegration;
+        private readonly VotesIntegrator _votesIntegration;
 
-        public HomeController(DatabaseContext context, ParliamentariansIntegration parliamentariansIntegration, CountriesIntegration countriesIntegration, VotesIntegration votesIntegration)
+        public HomeController(DatabaseContext context, ParliamentariansIntegration parliamentariansIntegration, CountriesIntegration countriesIntegration, VotesIntegrator votesIntegration)
         {
             _context = context;
             _parliamentariansIntegration = parliamentariansIntegration;
