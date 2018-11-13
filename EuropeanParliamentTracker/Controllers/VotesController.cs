@@ -19,16 +19,25 @@ namespace EuropeanParliamentTracker.Controllers
             _context = context;
         }
 
-        // GET: Votes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(VoteFilterViewModel viewModel)
         {
+            var votes = new List<Vote>();
+            if (viewModel.DateToShow == DateTime.MinValue)
+            {
+                votes = await _context.Votes.ToListAsync();
+            }
+            else
+            {
+                votes = await _context.Votes.Where(x => x.Date == viewModel.DateToShow).ToListAsync();
+            }
+
             var voteFilterViewModel = new VoteFilterViewModel()
             {
                 Votes = new List<VoteViewModel>(),
-                DateToShow = DateTime.Now
+                DateToShow = viewModel.DateToShow
             };
-            var votes = await _context.Votes.ToListAsync();
-            foreach(var vote in votes)
+
+            foreach (var vote in votes)
             {
                 var voteViewModel = new VoteViewModel
                 {
