@@ -1,6 +1,7 @@
 ﻿using EuropeanParliamentTracker.Domain;
 using EuropeanParliamentTracker.Domain.Entities;
 using EuropeanParliamentTracker.Domain.Enums;
+using EuropeanParliamentTracker.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,15 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
         private List<string> noParliamentariansFound;
         private List<string> severalParliamentariansFound;
 
+        private List<Parliamentarian> _parliamentarians;
+        private List<Vote> _votes;
+
         public VoteResultIntegrator(DatabaseContext context, DateTime dayToImportFor)
         {
             _context = context;
             _dayToImportFor = dayToImportFor;
+            _parliamentarians = _context.Parliamentarians.ToList();
+            _votes = _context.Votes.Where(x => x.Date == dayToImportFor).ToList();
         }
 
         public void IntegrateVoteResult(string pdfText)
@@ -41,7 +47,7 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
                 var voteCode = pdfText.Substring(0, endOfVoteCode);
                 voteCode = voteCode.TrimEnd(' ');
 
-                var vote = _context.Votes.FirstOrDefault(x => x.Code == voteCode);
+                var vote = _votes.FirstOrDefault(x => x.Code == voteCode);
                 if (vote == null)
                 {
                     voteNumber++;
@@ -101,34 +107,26 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
 
         private Guid? FindParliamentarianIdFromName(string parliamentarianName)
         {
-            var parliamentarians = _context.Parliamentarians.Where(x => x.Lastname == parliamentarianName.ToUpperInvariant());
-            if (parliamentarians.Count() != 1)
+            var matchingParliamentarians = _parliamentarians.Where(x => x.Lastname == parliamentarianName.ToUpperInvariant());
+            if (matchingParliamentarians.Count() != 1)
             {
-                parliamentarians = _context.Parliamentarians.Where(x => x.Lastname + " " + x.Firstname == parliamentarianName.ToUpperInvariant());
-                if (parliamentarians.Count() != 1)
+                matchingParliamentarians = _parliamentarians.Where(x => x.Lastname + " " + x.Firstname == parliamentarianName.ToUpperInvariant());
+                if (matchingParliamentarians.Count() != 1)
                 {
-                    parliamentarians = _context.Parliamentarians.Where(x => (x.Firstname + " " + x.Lastname).ToUpperInvariant().Contains(parliamentarianName.ToUpperInvariant()));
-                }
-
-                var pars = parliamentarians.ToList();
-
-                pars = parliamentarians.ToList();
-                if (parliamentarians.Count() != 1)
-                {
-                    var apa = 2;
+                    matchingParliamentarians = _parliamentarians.Where(x => (x.Firstname + " " + x.Lastname).ToUpperInvariant().Contains(parliamentarianName.ToUpperInvariant()));
                 }
             }
-            if (parliamentarians.Count() == 0)
+            if (matchingParliamentarians.Count() == 0)
             {
                 noParliamentariansFound.Add(parliamentarianName);
                 return null;
             }
-            if (parliamentarians.Count() > 1)
+            if (matchingParliamentarians.Count() > 1)
             {
                 severalParliamentariansFound.Add(parliamentarianName);
                 return null;
             }
-            return parliamentarians.FirstOrDefault()?.ParliamentarianId;
+            return matchingParliamentarians.FirstOrDefault()?.ParliamentarianId;
         }
     }
 }
