@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using EuropeanParliamentTracker.DataIntegrations.ParliamentariansIntegration;
 using EuropeanParliamentTracker.DataIntegrations.CountriesIntegration;
-using System;
 using EuropeanParliamentTracker.DataIntegrations.VotesIntegration;
 
 namespace EuropeanParliamentTracker.Controllers
@@ -26,9 +25,9 @@ namespace EuropeanParliamentTracker.Controllers
             _votesIntegration = votesIntegration;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(IntegratorViewModel viewModel)
         {
-            return View();
+            return View(viewModel);
         }
 
         public IActionResult RemoveAll()
@@ -42,10 +41,10 @@ namespace EuropeanParliamentTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult RemoveForOneDate()
+        public IActionResult RemoveForOneDate(IntegratorViewModel viewModel)
         {
-            _context.VoteResults.RemoveRange(_context.VoteResults.Where(x => x.Vote.Date == new DateTime(2018, 10, 25)).ToList());
-            _context.Votes.RemoveRange(_context.Votes.Where(x => x.Date == new DateTime(2018, 10, 25)));
+            _context.VoteResults.RemoveRange(_context.VoteResults.Where(x => x.Vote.Date == viewModel.DateToIntegrateFor).ToList());
+            _context.Votes.RemoveRange(_context.Votes.Where(x => x.Date == viewModel.DateToIntegrateFor));
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
@@ -57,9 +56,9 @@ namespace EuropeanParliamentTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult ReadFromPdf()
+        public IActionResult ReadFromPdf(IntegratorViewModel viewModel)
         {
-            _votesIntegration.IntegrateVotesForDay(new DateTime(2018, 10, 25));
+            _votesIntegration.IntegrateVotesForDay(viewModel.DateToIntegrateFor);
             return RedirectToAction(nameof(Index));
         }
 
