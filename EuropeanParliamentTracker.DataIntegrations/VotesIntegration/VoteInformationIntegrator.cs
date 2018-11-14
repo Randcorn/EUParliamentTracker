@@ -19,16 +19,9 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
         {
             _pdf = pdf;
             
-            while (true)
+            while (pdf.HasMoreVotes())
             {
-                try
-                {
-                    pdf.GoToNextVote();
-                }
-                catch
-                {
-                    break;
-                }
+                pdf.GoToNextVote();
 
                 var voteName = pdf.GetVoteName();
                 var voteCode = pdf.GetVoteCode();

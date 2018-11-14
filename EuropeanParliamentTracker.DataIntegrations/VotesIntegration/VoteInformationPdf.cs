@@ -18,6 +18,14 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             _voteNumber = 0;
         }
 
+        public bool HasMoreVotes()
+        {
+            var searchString = (_voteNumber + 1) + ". ";
+            var lengthToNextVote = _pdfText.IndexOf(searchString, _currentPosition);
+            return lengthToNextVote != -1;
+            
+        }
+
         public void GoToNextVote()
         {
             _voteNumber++;
