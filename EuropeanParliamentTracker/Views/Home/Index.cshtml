@@ -6,42 +6,45 @@
 }
 
 <div class="row">
-    <h2>Index</h2>
+    <div class="col-xs-12">
+        <h2>Index</h2>
 
-    <p>
-        <a asp-action="ImportData">Import Base Data</a>
-    </p>
-    <p>
-        <a asp-action="RemoveAll">Remove All</a>
-    </p>
-
-    <form asp-action="ReadFromPdf">
-        <div class="form-group">
-            <div class="col-lg-12">
-                Date to integrate votes for:
-            </div>
-            <div class="col-lg-7">
-                <input asp-for="DateToIntegrateFor" class="form-control" />
-            </div>
-            <div class="col-lg-7">
-                <input class="btn btn-primary" type="submit" value="Integrate" />
-            </div>
+        <p>
+            <a asp-action="ImportData">Import Base Data</a>
+        </p>
+        <p>
+            <a asp-action="RemoveAll">Remove All</a>
+        </p>
+        <div class="row">
+            <form asp-action="ReadFromPdf">
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        Date to integrate votes for:
+                    </div>
+                    <div class="col-lg-7">
+                        <input asp-for="DateToIntegrateFor" class="form-control" />
+                    </div>
+                    <div class="col-lg-7 m-t-sm">
+                        <input class="btn btn-primary" type="submit" value="Integrate" />
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
-
-    <form asp-action="RemoveForOneDate">
-        <div class="form-group">
-            <div class="col-lg-12">
-                Date to remove votes for:
-            </div>
-            <div class="col-lg-7">
-                <input asp-for="DateToIntegrateFor" class="form-control" />
-            </div>
-            <div class="col-lg-7">
-                <input class="btn btn-primary" type="submit" value="Remove votes" />
-            </div>
+        <div class="row">
+            <form asp-action="RemoveForOneDate">
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        Date to remove votes for:
+                    </div>
+                    <div class="col-lg-7">
+                        <input asp-for="DateToIntegrateFor" class="form-control" />
+                    </div>
+                    <div class="col-lg-7 m-t-sm">
+                        <input class="btn btn-primary" type="submit" value="Remove votes" />
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
-
+    </div>
 </div>
 

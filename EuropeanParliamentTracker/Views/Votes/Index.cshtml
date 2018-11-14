@@ -11,20 +11,21 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<form>
-    <div class="form-group">
-        <div class="col-lg-12">
-            Date to show:
+<div class="row">
+    <form>
+        <div class="form-group">
+            <div class="col-lg-12">
+                Date to show:
+            </div>
+            <div class="col-lg-7">
+                <input asp-for="DateToShow" class="form-control" />
+            </div>
+            <div class="col-lg-7">
+                <input class="btn btn-primary m-t-sm" type="submit" value="Search" />
+            </div>
         </div>
-        <div class="col-lg-7">
-            <input asp-for="DateToShow" class="form-control" />
-        </div>
-        <div class="col-lg-7">
-            <input class="btn btn-primary" type="submit" value="Search" />
-        </div>
-    </div>   
-</form>
-
+    </form>
+</div>
 
 <table class="table">
     <thead>
