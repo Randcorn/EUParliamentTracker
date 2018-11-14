@@ -49,9 +49,14 @@ namespace EuropeanParliamentTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ImportData()
+        public async Task<IActionResult> ImportCountries()
         {
             await _countriesIntegration.IntegrateCountries();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ImportParliamentarians()
+        {
             await _parliamentariansIntegration.IntegrateParliamentariansAsync();
             return RedirectToAction(nameof(Index));
         }

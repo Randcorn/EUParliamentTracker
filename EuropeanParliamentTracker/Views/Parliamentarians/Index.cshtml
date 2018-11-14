@@ -17,10 +17,10 @@
                 @Html.DisplayNameFor(model => model.Lastname)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country.Name)
+                @Html.DisplayNameFor(model => model.Country)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NationlParty.Name)
+                @Html.DisplayNameFor(model => model.NationlParty)
             </th>
             <th>
             </th>
@@ -37,6 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Lastname)
             </td>
             <td>
+                <img src="https://www.countryflags.io/@(item.Country.Code)/flat/32.png">
                 @Html.DisplayFor(modelItem => item.Country.Name)
             </td>
             <td>
