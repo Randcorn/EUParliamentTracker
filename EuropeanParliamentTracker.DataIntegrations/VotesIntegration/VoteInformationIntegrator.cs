@@ -8,7 +8,6 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
     public class VoteInformationIntegrator
     {
         private readonly DatabaseContext _context;
-        private VoteInformationPdf _pdf;
 
         public VoteInformationIntegrator(DatabaseContext context)
         {
@@ -16,9 +15,7 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
         }
 
         public void IntegrateVoteInformation(VoteInformationPdf pdf)
-        {
-            _pdf = pdf;
-            
+        {            
             while (pdf.HasMoreVotes())
             {
                 pdf.GoToNextVote();
