@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EuropeanParliamentTracker.Domain;
+using EuropeanParliamentTracker.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +37,21 @@ namespace EuropeanParliamentTracker.Controllers
                 return NotFound();
             }
 
-            return View(parliamentarian);
+            var parliamentarianVoteResults = _context.VoteResults.Include(x => x.Vote)
+                .Where(m => m.ParliamentarianId == id).ToList();
+
+            var viewModel = new ParliamentarianViewModel
+            {
+                ParliamentarianId = parliamentarian.ParliamentarianId,
+                Firstname = parliamentarian.Firstname,
+                Lastname = parliamentarian.Lastname,
+                OfficalId = parliamentarian.OfficalId,
+                NationlParty = parliamentarian.NationlParty,
+                Country = parliamentarian.Country,
+                VoteResults = parliamentarianVoteResults
+            };
+
+            return View(viewModel);
         }
     }
 }

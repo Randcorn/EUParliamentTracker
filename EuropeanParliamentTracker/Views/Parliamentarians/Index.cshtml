@@ -11,10 +11,9 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Firstname)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lastname)
+                Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Country)
@@ -31,10 +30,10 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
+                <img width="32" src="http://www.europarl.europa.eu/mepphoto/@(item.OfficalId).jpg">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
+                @Html.DisplayFor(modelItem => item.Firstname) @Html.DisplayFor(modelItem => item.Lastname)
             </td>
             <td>
                 <img src="https://www.countryflags.io/@(item.Country.Code)/flat/32.png">
