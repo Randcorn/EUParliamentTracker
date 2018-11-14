@@ -23,7 +23,6 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             var searchString = (_voteNumber + 1) + ". ";
             var lengthToNextVote = _pdfText.IndexOf(searchString, _currentPosition);
             return lengthToNextVote != -1;
-            
         }
 
         public void GoToNextVote()
