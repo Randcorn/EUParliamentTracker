@@ -19,7 +19,7 @@ namespace EuropeanParliamentTracker.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Parliamentarians.Include(x => x.Country).Include(x => x.NationlParty).ToListAsync());
+            return View(await _context.Parliamentarians.Include(x => x.Country).Include(x => x.NationalParty).ToListAsync());
         }
 
         // GET: Votes/Details/5
@@ -30,7 +30,7 @@ namespace EuropeanParliamentTracker.Controllers
                 return NotFound();
             }
 
-            var parliamentarian = await _context.Parliamentarians.Include(x => x.Country).Include(x => x.NationlParty)
+            var parliamentarian = await _context.Parliamentarians.Include(x => x.Country).Include(x => x.NationalParty)
                 .FirstOrDefaultAsync(m => m.ParliamentarianId == id);
             if (parliamentarian == null)
             {
@@ -46,7 +46,7 @@ namespace EuropeanParliamentTracker.Controllers
                 Firstname = parliamentarian.Firstname,
                 Lastname = parliamentarian.Lastname,
                 OfficalId = parliamentarian.OfficalId,
-                NationlParty = parliamentarian.NationlParty,
+                NationlParty = parliamentarian.NationalParty,
                 Country = parliamentarian.Country,
                 VoteResults = parliamentarianVoteResults
             };

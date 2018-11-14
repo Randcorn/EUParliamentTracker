@@ -44,7 +44,7 @@ namespace EuropeanParliamentTracker.Domain
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Parliamentarian>()
-                .HasOne(x => x.NationlParty)
+                .HasOne(x => x.NationalParty)
                 .WithMany()
                 .HasForeignKey(x => x.NationalPartyId)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -58,7 +58,7 @@ namespace EuropeanParliamentTracker.DataIntegrations.ParliamentariansIntegration
                         Lastname = GetLastname(mep.fullName),
                         OfficalId = mep.id,
                         Country = country,
-                        NationlParty = nationalParty
+                        NationalParty = nationalParty
                     };
                     _context.Parliamentarians.Add(parliamentarian);
                 }

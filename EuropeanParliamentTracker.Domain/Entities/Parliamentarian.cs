@@ -13,6 +13,6 @@ namespace EuropeanParliamentTracker.Domain.Models
         public Country Country { get; set; }
 
         public Guid NationalPartyId { get; set; }
-        public NationalParty NationlParty { get; set; }
+        public NationalParty NationalParty { get; set; }
     }
 }
