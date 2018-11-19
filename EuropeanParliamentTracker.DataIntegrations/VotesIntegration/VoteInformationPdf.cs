@@ -25,6 +25,11 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             return lengthToNextVote != -1;
         }
 
+        public int GetNumberOfVoteOfTheDayOfCurrentVote()
+        {
+            return _voteNumber;
+        }
+
         public void GoToNextVote()
         {
             _voteNumber++;
@@ -50,10 +55,6 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             {
                 lengthOfName = lengthToReccomendation;
             }
-            if (lengthOfName < 0 || (lengthToCode > 0 && lengthToCode < lengthOfName))
-            {
-                lengthOfName = lengthToCode;
-            }
             if (lengthOfName < 0 || (lengthToMotionForAResolution > 0 && lengthToMotionForAResolution < lengthOfName))
             {
                 lengthOfName = lengthToMotionForAResolution;
@@ -61,6 +62,14 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             if (lengthOfName < 0 || (lengthToMotionsForResolutions > 0 && lengthToMotionsForResolutions < lengthOfName))
             {
                 lengthOfName = lengthToMotionsForResolutions;
+            }
+            if (lengthOfName < 0 || (lengthToCode > 0 && lengthToCode < lengthOfName))
+            {
+                var charAfterCode = _pdfText[lengthToCode + 12];
+                if (charAfterCode == ')' || charAfterCode == ' ')
+                {
+                    lengthOfName = lengthToCode;
+                }
             }
             lengthOfName -= _currentPosition;
             var voteName = _pdfText.Substring(_currentPosition, lengthOfName);
@@ -70,8 +79,13 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
 
         public string GetVoteCode()
         {
-            var endOfCode = _pdfText.IndexOf("/" + Date.ToString("yyyy"), _currentPosition);
-            var code = _pdfText.Substring(endOfCode - 7, 12);
+            var codePostion = _pdfText.IndexOf("/" + Date.ToString("yyyy"), _currentPosition);
+            var charAfterCode = _pdfText[codePostion + 5];
+            if(charAfterCode != ')' && codePostion != ' ')
+            {
+                codePostion = _pdfText.IndexOf("/" + Date.ToString("yyyy"), codePostion + 5);
+            }
+            var code = _pdfText.Substring(codePostion - 7, 12);
             return code;            
         }
     }

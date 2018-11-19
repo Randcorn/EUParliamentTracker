@@ -14,6 +14,7 @@ namespace EuropeanParliamentTracker.ViewModels
         public string Code { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
+        public int VoteNumberOfTheDay { get; set; }
         public List<VoteResult> VoteResults { get; set; }
 
         public VoteType VoteOutcome()

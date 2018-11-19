@@ -24,11 +24,11 @@ namespace EuropeanParliamentTracker.Controllers
             var votes = new List<Vote>();
             if (viewModel.DateToShow == DateTime.MinValue)
             {
-                votes = await _context.Votes.ToListAsync();
+                votes = await _context.Votes.OrderBy(x => x.Date).ToListAsync();
             }
             else
             {
-                votes = await _context.Votes.Where(x => x.Date == viewModel.DateToShow).ToListAsync();
+                votes = await _context.Votes.Where(x => x.Date == viewModel.DateToShow).OrderBy(x => x.VoteNumberOfTheDay).ToListAsync();
             }
 
             var voteFilterViewModel = new VoteFilterViewModel()
@@ -45,6 +45,7 @@ namespace EuropeanParliamentTracker.Controllers
                     Name = vote.Name,
                     Code = vote.Code,
                     Date = vote.Date,
+                    VoteNumberOfTheDay = vote.VoteNumberOfTheDay,
                     VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
                 };
                 voteFilterViewModel.Votes.Add(voteViewModel);
@@ -74,6 +75,7 @@ namespace EuropeanParliamentTracker.Controllers
                 Name = vote.Name,
                 Code = vote.Code,
                 Date = vote.Date,
+                VoteNumberOfTheDay = vote.VoteNumberOfTheDay,
                 VoteResults = _context.VoteResults.Where(x => x.VoteId == vote.VoteId).Include(x => x.Parliamentarian).ToList()
             };
 

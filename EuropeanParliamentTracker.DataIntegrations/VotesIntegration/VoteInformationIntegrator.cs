@@ -33,7 +33,8 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
                     VoteId = Guid.NewGuid(),
                     Name = voteName,
                     Code = voteCode,
-                    Date = pdf.Date
+                    Date = pdf.Date,
+                    VoteNumberOfTheDay = pdf.GetNumberOfVoteOfTheDayOfCurrentVote()
                 };
                 _context.Add(vote);
             }

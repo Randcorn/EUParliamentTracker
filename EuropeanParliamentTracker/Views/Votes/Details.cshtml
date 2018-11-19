@@ -30,6 +30,30 @@
         <dd>
             @Html.DisplayFor(model => model.Date)
         </dd>
+        <dt>
+            Number of votes
+        </dt>
+        <dd>
+            @Model.VoteResults.Count
+        </dd>
+        <dt>
+            Approve
+        </dt>
+        <dd>
+            @Model.VoteResults.Count(x => x.VoteType == EuropeanParliamentTracker.Domain.Enums.VoteType.Approve)
+        </dd>
+        <dt>
+            Reject
+        </dt>
+        <dd>
+            @Model.VoteResults.Count(x => x.VoteType == EuropeanParliamentTracker.Domain.Enums.VoteType.Reject)
+        </dd>
+        <dt>
+            Abstain
+        </dt>
+        <dd>
+            @Model.VoteResults.Count(x => x.VoteType == EuropeanParliamentTracker.Domain.Enums.VoteType.Abstain)
+        </dd>
     </dl>
 </div>
 <div>
