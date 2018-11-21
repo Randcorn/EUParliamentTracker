@@ -27,5 +27,25 @@ namespace EuropeanParliamentTracker.ViewModels
             }
             return VoteType.Reject;
         }
+
+        public int NumberOfApproveVotes()
+        {
+            return VoteResults.Count(x => x.VoteType == VoteType.Approve);
+        }
+
+        public int NumberOfRejectVotes()
+        {
+            return VoteResults.Count(x => x.VoteType == VoteType.Reject);
+        }
+
+        public int NumberOfAbstainVotes()
+        {
+            return VoteResults.Count(x => x.VoteType == VoteType.Abstain);
+        }
+
+        public int NumberOfAbsentVotes()
+        {
+            return 750 - NumberOfApproveVotes() - NumberOfRejectVotes() - NumberOfAbstainVotes();
+        }
     }
 }

@@ -40,19 +40,19 @@
             Approve
         </dt>
         <dd>
-            @Model.VoteResults.Count(x => x.VoteType == EuropeanParliamentTracker.Domain.Enums.VoteType.Approve)
+            @Model.NumberOfApproveVotes()
         </dd>
         <dt>
             Reject
         </dt>
         <dd>
-            @Model.VoteResults.Count(x => x.VoteType == EuropeanParliamentTracker.Domain.Enums.VoteType.Reject)
+            @Model.NumberOfRejectVotes()
         </dd>
         <dt>
             Abstain
         </dt>
         <dd>
-            @Model.VoteResults.Count(x => x.VoteType == EuropeanParliamentTracker.Domain.Enums.VoteType.Abstain)
+            @Model.NumberOfAbstainVotes()
         </dd>
     </dl>
 </div>
@@ -61,6 +61,11 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<canvas id="ParliamentCanvas" width="1000" height="600"></canvas>
+<input id="NumberOfApproveVotes" type="hidden" value="@Model.NumberOfApproveVotes()" />
+<input id="NumberOfRejectVotes" type="hidden" value="@Model.NumberOfRejectVotes()" />
+<input id="NumberOfAbstainVotes" type="hidden" value="@Model.NumberOfAbstainVotes()" />
+<input id="NumberOfAbsentVotes" type="hidden" value="@Model.NumberOfAbsentVotes()" />
 
 <table class="table">
     <thead>
@@ -74,15 +79,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var VoteResult in Model.VoteResults) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => VoteResult.Parliamentarian.Firstname) @Html.DisplayFor(modelItem => VoteResult.Parliamentarian.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => VoteResult.VoteType)
-            </td>
-        </tr>
-}
+        @foreach (var VoteResult in Model.VoteResults)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => VoteResult.Parliamentarian.Firstname) @Html.DisplayFor(modelItem => VoteResult.Parliamentarian.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => VoteResult.VoteType)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="~/js/Parliament.js"></script>
+    <script src="~/js/Vote.js"></script>
+}
