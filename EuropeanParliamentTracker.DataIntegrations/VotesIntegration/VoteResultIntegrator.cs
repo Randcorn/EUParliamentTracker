@@ -74,20 +74,38 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
 
         private Guid? FindParliamentarianIdFromName(string parliamentarianName)
         {
-            var matchingParliamentarians = _parliamentarians.Where(x => x.Lastname == parliamentarianName.ToUpperInvariant());
-            if (matchingParliamentarians.Count() != 1)
-            {
-                matchingParliamentarians = _parliamentarians.Where(x => x.Lastname + " " + x.Firstname == parliamentarianName.ToUpperInvariant());
-                if (matchingParliamentarians.Count() != 1)
-                {
-                    matchingParliamentarians = _parliamentarians.Where(x => (x.Firstname + " " + x.Lastname).ToUpperInvariant().Contains(parliamentarianName.ToUpperInvariant()));
-                }
-            }
-            if (matchingParliamentarians.Count() != 1)
+            if(string.IsNullOrWhiteSpace(parliamentarianName))
             {
                 return null;
             }
-            return matchingParliamentarians.FirstOrDefault()?.ParliamentarianId;
+            parliamentarianName = parliamentarianName.Replace("ß", "SS");
+            var matchingParliamentarians = _parliamentarians.Where(x => x.Lastname == parliamentarianName.ToUpperInvariant());
+            if (matchingParliamentarians.Count() == 1)
+            {
+                return matchingParliamentarians.First().ParliamentarianId;
+            }
+            matchingParliamentarians = _parliamentarians.Where(x => (x.Lastname + " " + x.Firstname).ToUpperInvariant() == parliamentarianName.ToUpperInvariant());
+            if (matchingParliamentarians.Count() == 1)
+            {
+                return matchingParliamentarians.First().ParliamentarianId;
+            }
+            matchingParliamentarians = _parliamentarians.Where(x => (x.Firstname + " " + x.Lastname).ToUpperInvariant().Contains(parliamentarianName.ToUpperInvariant()));
+            if (matchingParliamentarians.Count() == 1)
+            {
+                return matchingParliamentarians.First().ParliamentarianId;
+            }
+            if(parliamentarianName == "Lange") //TODO: Implement something that can detect this one
+            {
+                return _parliamentarians.First(x => x.Firstname == "Bernd" && x.Lastname == "LANGE").ParliamentarianId;
+            }
+            var nameList = parliamentarianName.Split(" ").ToList();
+            if(nameList.Any(x => x.Length <= 2))
+            {
+                nameList.RemoveAll(x => x.Length <= 2);
+                var newName = string.Join(" ", nameList);
+                return FindParliamentarianIdFromName(newName);
+            }
+            return null;
         }
     }
 }
