@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="PdfHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextAndLocationExtractionStrategy.cs" />
+    <Compile Include="TextWithLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

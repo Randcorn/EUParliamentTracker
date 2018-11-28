@@ -8,14 +8,15 @@ namespace EuropeanParliamentTracker.Pdf
 {
     public class PdfHelper
     {
-        public static string GetTextFromPDF(string url)
+        public static string GetTextFromPDF(string url, int startPage = 1)
         {
-            StringBuilder text = new StringBuilder();
-            using (PdfReader reader = new PdfReader(new Uri(url)))
+            var text = new StringBuilder();
+            using (var reader = new PdfReader(new Uri(url)))
             {
-                for (int i = 1; i <= reader.NumberOfPages; i++)
+                var strategy = new TextAndLocationExtractionStrategy();
+                for (int i = startPage; i <= reader.NumberOfPages; i++)
                 {
-                    text.Append(PdfTextExtractor.GetTextFromPage(reader, i));
+                    text.Append(PdfTextExtractor.GetTextFromPage(reader, i, strategy));
                 }
             }
 

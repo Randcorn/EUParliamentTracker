@@ -19,13 +19,13 @@ namespace EuropeanParliamentTracker.DataIntegrations.VotesIntegration
             _dayToImportFor = dayToImportFor;
 
             var voteInformationUrl = GetVoteInformationUrl(_dayToImportFor);
-            var voteInformationPdfText = PdfHelper.GetTextFromPDF(voteInformationUrl);
+            var voteInformationPdfText = PdfHelper.GetTextFromPDF(voteInformationUrl, 2);
             var voteInformationPdf = new VoteInformationPdf(voteInformationPdfText, _dayToImportFor);
             var voteInformationIntegrator = new VoteInformationIntegrator(_context);
             voteInformationIntegrator.IntegrateVoteInformation(voteInformationPdf);
             
             var voteResultUrl = GetVoteResultUrl(_dayToImportFor);
-            var voteResultPdfText = PdfHelper.GetTextFromPDF(voteResultUrl);
+            var voteResultPdfText = PdfHelper.GetTextFromPDF(voteResultUrl, 2);
             var voteResultPdf = new VoteResultPdf(voteResultPdfText, _dayToImportFor);
             var voteResultIntegrator = new VoteResultIntegrator(_context, _dayToImportFor);
             voteResultIntegrator.IntegrateVoteResult(voteResultPdf);
